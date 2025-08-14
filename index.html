@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Product Filter</title>
+  <style>
+    /* Reset default margin & padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Dropdown Styling */
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: white;
+      margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Product Grid */
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    /* Product Card */
+    .product {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .product img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .product h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .product p {
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛍️ Product Filter</h1>
+
+  <!-- Dropdown Menu -->
+  <select id="filterDropdown">
+    <option value="all">All</option>
+    <option value="shoes">Shoes</option>
+    <option value="shirts">Shirts</option>
+    <option value="gadgets">Gadgets</option>
+  </select>
+
+  <!-- Product List -->
+  <div id="productList" class="product-list"></div>
+
+  <script>
+    // Sample Product Data
+    const products = [
+      { name: "Running Shoes", category: "shoes", img: "https://via.placeholder.com/200x150?text=Running+Shoes" },
+      { name: "Casual Shirt", category: "shirts", img: "https://via.placeholder.com/200x150?text=Casual+Shirt" },
+      { name: "Smart Watch", category: "gadgets", img: "https://via.placeholder.com/200x150?text=Smart+Watch" },
+      { name: "Formal Shoes", category: "shoes", img: "https://via.placeholder.com/200x150?text=Formal+Shoes" },
+      { name: "T-Shirt", category: "shirts", img: "https://via.placeholder.com/200x150?text=T-Shirt" },
+      { name: "Wireless Earbuds", category: "gadgets", img: "https://via.placeholder.com/200x150?text=Earbuds" }
+    ];
+
+    const dropdown = document.getElementById("filterDropdown");
+    const productList = document.getElementById("productList");
+
+    // Function to Display Products
+    function displayProducts(items) {
+      productList.innerHTML = "";
+      items.forEach(product => {
+        const productCard = document.createElement("div");
+        productCard.classList.add("product");
+        productCard.innerHTML = `
+          <img src="${product.img}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.category}</p>
+        `;
+        productList.appendChild(productCard);
+      });
+    }
+
+    // Initial Display
+    displayProducts(products);
+
+    // Filter Functionality
+    dropdown.addEventListener("change", () => {
+      const selected = dropdown.value;
+      if (selected === "all") {
+        displayProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === selected);
+        displayProducts(filtered);
+      }
+    });
+  </script>
+
+</body>
+</html>
